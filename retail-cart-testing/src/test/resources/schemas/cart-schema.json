@@ -1,0 +1,94 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Shopping Cart Response Schema",
+  "type": "object",
+  "required": ["id", "customerId", "items", "subtotal", "total", "createdAt"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$"
+    },
+    "customerId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "currency": {
+      "type": "string",
+      "enum": ["USD", "EUR", "GBP", "CAD"]
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["productId", "quantity", "price", "lineTotal"],
+        "properties": {
+          "productId": {
+            "type": "string",
+            "pattern": "^P[0-9]{3,}$"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "quantity": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "price": {
+            "type": "number",
+            "minimum": 0
+          },
+          "lineTotal": {
+            "type": "number",
+            "minimum": 0
+          }
+        }
+      }
+    },
+    "appliedPromotions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["code", "discountAmount"],
+        "properties": {
+          "code": {
+            "type": "string",
+            "minLength": 1
+          },
+          "discountAmount": {
+            "type": "number",
+            "minimum": 0
+          },
+          "discountType": {
+            "type": "string",
+            "enum": ["PERCENTAGE", "FIXED_AMOUNT"]
+          }
+        }
+      }
+    },
+    "subtotal": {
+      "type": "number",
+      "minimum": 0
+    },
+    "discountAmount": {
+      "type": "number",
+      "minimum": 0
+    },
+    "tax": {
+      "type": "number",
+      "minimum": 0
+    },
+    "total": {
+      "type": "number",
+      "minimum": 0
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

@@ -1,0 +1,49 @@
+# Template Configuration File
+# Copy this file to config.properties and update values for your environment
+
+# Application Configuration
+base.url=https://www.example-retail-app.com/cart
+api.base.url=https://api.example-retail-app.com/v1
+
+# Browser Configuration
+browser=chrome
+headless.mode=false
+browser.window.width=1920
+browser.window.height=1080
+
+# Timeout Configuration (in seconds)
+implicit.wait.seconds=10
+pageload.timeout.seconds=30
+explicit.wait.seconds=15
+
+# Test Data Configuration
+test.data.path=src/test/resources/testdata
+use.dynamic.data=true
+
+# Selenium Grid Configuration
+selenium.grid.enabled=false
+selenium.grid.url=http://localhost:4444/wd/hub
+
+# Database Configuration (if applicable)
+db.url=jdbc:h2:mem:testdb
+db.username=sa
+db.password=
+
+# Environment Configuration
+environment.name=local
+debug.mode=true
+
+# API Configuration
+api.timeout.seconds=30
+api.retry.attempts=3
+
+# Screenshot Configuration
+screenshot.on.failure=true
+screenshot.path=target/screenshots
+
+# Logging Configuration
+logging.level=INFO
+
+# Optional: Credentials (use environment variables in CI/CD)
+# test.username=${TEST_USERNAME}
+# test.password=${TEST_PASSWORD}

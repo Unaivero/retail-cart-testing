@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    
+    <!-- Property definitions -->
+    <property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level [%logger{36}] - %msg%n"/>
+    <property name="LOG_PATTERN_WITH_MDC" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level [%logger{36}] [%X{testClass:-}] [%X{testMethod:-}] [%X{browser:-}] [%X{environment:-}] - %msg%n"/>
+    <property name="JSON_PATTERN" value='{"timestamp":"%d{yyyy-MM-dd HH:mm:ss.SSS}","level":"%level","logger":"%logger","thread":"%thread","testClass":"%X{testClass:-}","testMethod":"%X{testMethod:-}","browser":"%X{browser:-}","environment":"%X{environment:-}","message":"%msg","exception":"%ex{full}"}%n'/>
+    
+    <!-- Console appender with colored output -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%green(%d{yyyy-MM-dd HH:mm:ss.SSS}) %magenta([%thread]) %highlight(%-5level) %cyan([%logger{36}]) %blue([%X{testClass:-}]) %yellow([%X{testMethod:-}]) %red([%X{browser:-}]) - %msg%n</pattern>
+        </encoder>
+    </appender>
+    
+    <!-- File appender for all logs -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>target/logs/test-execution.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>target/logs/test-execution.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxFileSize>10MB</maxFileSize>
+            <maxHistory>30</maxHistory>
+            <totalSizeCap>300MB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${LOG_PATTERN_WITH_MDC}</pattern>
+        </encoder>
+    </appender>
+    
+    <!-- JSON file appender for structured logging -->
+    <appender name="JSON_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>target/logs/test-execution.json</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>target/logs/test-execution.%d{yyyy-MM-dd}.%i.json</fileNamePattern>
+            <maxFileSize>10MB</maxFileSize>
+            <maxHistory>30</maxHistory>
+            <totalSizeCap>300MB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${JSON_PATTERN}</pattern>
+        </encoder>
+    </appender>
+    
+    <!-- Error file appender -->
+    <appender name="ERROR_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>target/logs/test-errors.log</file>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>target/logs/test-errors.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxFileSize>10MB</maxFileSize>
+            <maxHistory>30</maxHistory>
+            <totalSizeCap>100MB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${LOG_PATTERN_WITH_MDC}</pattern>
+        </encoder>
+    </appender>
+    
+    <!-- Performance metrics appender -->
+    <appender name="PERFORMANCE_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>target/logs/performance-metrics.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>target/logs/performance-metrics.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxFileSize>5MB</maxFileSize>
+            <maxHistory>15</maxHistory>
+            <totalSizeCap>75MB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%X{testMethod:-}] [%X{browser:-}] - %msg%n</pattern>
+        </encoder>
+    </appender>
+    
+    <!-- Browser-specific appenders -->
+    <appender name="CHROME_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>target/logs/chrome-tests.log</file>
+        <filter class="ch.qos.logback.core.filter.EvaluatorFilter">
+            <evaluator class="ch.qos.logback.classic.boolex.OnMarkerEvaluator">
+                <marker>CHROME</marker>
+            </evaluator>
+            <onMismatch>DENY</onMismatch>
+            <onMatch>ACCEPT</onMatch>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>target/logs/chrome-tests.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>7</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${LOG_PATTERN_WITH_MDC}</pattern>
+        </encoder>
+    </appender>
+    
+    <appender name="FIREFOX_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>target/logs/firefox-tests.log</file>
+        <filter class="ch.qos.logback.core.filter.EvaluatorFilter">
+            <evaluator class="ch.qos.logback.classic.boolex.OnMarkerEvaluator">
+                <marker>FIREFOX</marker>
+            </evaluator>
+            <onMismatch>DENY</onMismatch>
+            <onMatch>ACCEPT</onMatch>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>target/logs/firefox-tests.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>7</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${LOG_PATTERN_WITH_MDC}</pattern>
+        </encoder>
+    </appender>
+    
+    <!-- Async appenders for better performance -->
+    <appender name="ASYNC_FILE" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="FILE"/>
+        <queueSize>1024</queueSize>
+        <discardingThreshold>0</discardingThreshold>
+        <includeCallerData>true</includeCallerData>
+    </appender>
+    
+    <appender name="ASYNC_JSON" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="JSON_FILE"/>
+        <queueSize>1024</queueSize>
+        <discardingThreshold>0</discardingThreshold>
+        <includeCallerData>true</includeCallerData>
+    </appender>
+    
+    <!-- Logger configurations -->
+    
+    <!-- Root logger -->
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="ASYNC_FILE"/>
+        <appender-ref ref="ASYNC_JSON"/>
+        <appender-ref ref="ERROR_FILE"/>
+    </root>
+    
+    <!-- Framework-specific loggers -->
+    <logger name="com.retailer.cart" level="DEBUG" additivity="false">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="ASYNC_FILE"/>
+        <appender-ref ref="ASYNC_JSON"/>
+        <appender-ref ref="ERROR_FILE"/>
+    </logger>
+    
+    <!-- Performance logger -->
+    <logger name="com.retailer.cart.performance" level="INFO" additivity="false">
+        <appender-ref ref="PERFORMANCE_FILE"/>
+        <appender-ref ref="CONSOLE"/>
+    </logger>
+    
+    <!-- Browser-specific loggers -->
+    <logger name="com.retailer.cart.chrome" level="DEBUG" additivity="false">
+        <appender-ref ref="CHROME_FILE"/>
+        <appender-ref ref="CONSOLE"/>
+    </logger>
+    
+    <logger name="com.retailer.cart.firefox" level="DEBUG" additivity="false">
+        <appender-ref ref="FIREFOX_FILE"/>
+        <appender-ref ref="CONSOLE"/>
+    </logger>
+    
+    <!-- Selenium WebDriver logger (reduce verbosity) -->
+    <logger name="org.openqa.selenium" level="WARN" additivity="false">
+        <appender-ref ref="ASYNC_FILE"/>
+    </logger>
+    
+    <!-- REST Assured logger -->
+    <logger name="io.restassured" level="WARN" additivity="false">
+        <appender-ref ref="ASYNC_FILE"/>
+    </logger>
+    
+    <!-- Cucumber logger -->
+    <logger name="io.cucumber" level="INFO" additivity="false">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="ASYNC_FILE"/>
+    </logger>
+    
+    <!-- Test execution logger -->
+    <logger name="org.junit" level="INFO" additivity="false">
+        <appender-ref ref="ASYNC_FILE"/>
+    </logger>
+    
+    <!-- HTTP client loggers (reduce verbosity) -->
+    <logger name="org.apache.http" level="WARN" additivity="false">
+        <appender-ref ref="ASYNC_FILE"/>
+    </logger>
+    
+    <logger name="org.apache.http.wire" level="ERROR" additivity="false">
+        <appender-ref ref="ASYNC_FILE"/>
+    </logger>
+    
+    <!-- WebDriverManager logger -->
+    <logger name="io.github.bonigarcia.wdm" level="WARN" additivity="false">
+        <appender-ref ref="ASYNC_FILE"/>
+    </logger>
+    
+</configuration>

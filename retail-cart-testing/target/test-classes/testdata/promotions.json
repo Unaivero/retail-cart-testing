@@ -1,0 +1,125 @@
+{
+  "promotions": [
+    {
+      "code": "SUMMER25",
+      "discountType": "PERCENTAGE",
+      "discountValue": 25.0,
+      "startDate": "2024-01-01",
+      "endDate": "2024-12-31",
+      "minSpend": 0.0,
+      "combinable": false,
+      "description": "Summer sale - 25% off"
+    },
+    {
+      "code": "SUMMER10",
+      "discountType": "PERCENTAGE",
+      "discountValue": 10.0,
+      "startDate": "2024-01-01",
+      "endDate": "2024-12-31",
+      "minSpend": 0.0,
+      "combinable": true,
+      "description": "Summer discount - 10% off"
+    },
+    {
+      "code": "NEWCUSTOMER5",
+      "discountType": "FIXED_AMOUNT",
+      "discountValue": 5.0,
+      "startDate": "2024-01-01",
+      "endDate": "2024-12-31",
+      "minSpend": 25.0,
+      "combinable": true,
+      "description": "New customer discount - $5 off"
+    },
+    {
+      "code": "SALE30",
+      "discountType": "PERCENTAGE",
+      "discountValue": 30.0,
+      "startDate": "2024-01-01",
+      "endDate": "2024-12-31",
+      "minSpend": 100.0,
+      "combinable": false,
+      "description": "Big sale - 30% off on orders over $100"
+    },
+    {
+      "code": "BUNDLE20",
+      "discountType": "PERCENTAGE",
+      "discountValue": 20.0,
+      "startDate": "2024-01-01",
+      "endDate": "2024-12-31",
+      "minSpend": 50.0,
+      "combinable": false,
+      "description": "Bundle discount - 20% off"
+    },
+    {
+      "code": "EXPIRED21",
+      "discountType": "PERCENTAGE",
+      "discountValue": 15.0,
+      "startDate": "2023-01-01",
+      "endDate": "2023-12-31",
+      "minSpend": 0.0,
+      "combinable": true,
+      "description": "Expired promotion"
+    },
+    {
+      "code": "INVALID123",
+      "discountType": "PERCENTAGE",
+      "discountValue": 10.0,
+      "startDate": "2025-01-01",
+      "endDate": "2025-12-31",
+      "minSpend": 0.0,
+      "combinable": true,
+      "description": "Future promotion (not yet active)"
+    },
+    {
+      "code": "SEASONAL22",
+      "discountType": "FIXED_AMOUNT",
+      "discountValue": 10.0,
+      "startDate": "2025-01-01",
+      "endDate": "2025-12-31",
+      "minSpend": 0.0,
+      "combinable": true,
+      "description": "Seasonal promotion (not currently active)"
+    },
+    {
+      "code": "SAVEONBOOKS",
+      "discountType": "PERCENTAGE",
+      "discountValue": 15.0,
+      "startDate": "2024-01-01",
+      "endDate": "2024-12-31",
+      "minSpend": 0.0,
+      "combinable": true,
+      "description": "Book-specific promotion",
+      "applicableCategories": ["Books"]
+    },
+    {
+      "code": "MINSPEND10",
+      "discountType": "PERCENTAGE",
+      "discountValue": 10.0,
+      "startDate": "2024-01-01",
+      "endDate": "2024-12-31",
+      "minSpend": 75.0,
+      "combinable": true,
+      "description": "Minimum spend $75 for 10% off"
+    }
+  ],
+  "discountTypes": [
+    "PERCENTAGE",
+    "FIXED_AMOUNT"
+  ],
+  "validCodes": [
+    "SUMMER25",
+    "SUMMER10",
+    "NEWCUSTOMER5",
+    "SALE30",
+    "BUNDLE20",
+    "SAVEONBOOKS",
+    "MINSPEND10"
+  ],
+  "expiredCodes": [
+    "EXPIRED21"
+  ],
+  "invalidCodes": [
+    "INVALID123",
+    "SEASONAL22"
+  ]
+}

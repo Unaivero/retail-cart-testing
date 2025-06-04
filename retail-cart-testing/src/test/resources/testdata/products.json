@@ -1,0 +1,132 @@
+{
+  "products": [
+    {
+      "productId": "P001",
+      "name": "Slim Fit Jeans",
+      "price": 49.99,
+      "quantity": 1,
+      "category": "Clothing",
+      "brand": "DenimCo",
+      "color": "Blue",
+      "size": "M",
+      "inStock": true
+    },
+    {
+      "productId": "P002",
+      "name": "Cotton T-shirt",
+      "price": 19.99,
+      "quantity": 2,
+      "category": "Clothing",
+      "brand": "ComfortWear",
+      "color": "White",
+      "size": "L",
+      "inStock": true
+    },
+    {
+      "productId": "P003",
+      "name": "Leather Jacket",
+      "price": 199.99,
+      "quantity": 1,
+      "category": "Clothing",
+      "brand": "LeatherLux",
+      "color": "Black",
+      "size": "M",
+      "inStock": true
+    },
+    {
+      "productId": "P004",
+      "name": "Silk Scarf",
+      "price": 25.00,
+      "quantity": 1,
+      "category": "Accessories",
+      "brand": "SilkStyle",
+      "color": "Red",
+      "size": "One Size",
+      "inStock": true
+    },
+    {
+      "productId": "P005",
+      "name": "Woolen Socks",
+      "price": 15.00,
+      "quantity": 2,
+      "category": "Accessories",
+      "brand": "WarmFeet",
+      "color": "Gray",
+      "size": "M",
+      "inStock": true
+    },
+    {
+      "productId": "P006",
+      "name": "Running Shoes",
+      "price": 89.99,
+      "quantity": 1,
+      "category": "Footwear",
+      "brand": "SportRun",
+      "color": "Blue",
+      "size": "10",
+      "inStock": true
+    },
+    {
+      "productId": "P007",
+      "name": "Wireless Headphones",
+      "price": 149.99,
+      "quantity": 1,
+      "category": "Electronics",
+      "brand": "AudioTech",
+      "color": "Black",
+      "size": "One Size",
+      "inStock": true
+    },
+    {
+      "productId": "P008",
+      "name": "Leather Belt",
+      "price": 35.00,
+      "quantity": 1,
+      "category": "Accessories",
+      "brand": "BeltMaster",
+      "color": "Brown",
+      "size": "32",
+      "inStock": true
+    },
+    {
+      "productId": "P009",
+      "name": "Polo Shirt",
+      "price": 29.99,
+      "quantity": 1,
+      "category": "Clothing",
+      "brand": "PoloStyle",
+      "color": "Navy",
+      "size": "L",
+      "inStock": true
+    },
+    {
+      "productId": "P010",
+      "name": "Smartwatch",
+      "price": 299.99,
+      "quantity": 1,
+      "category": "Electronics",
+      "brand": "TechTime",
+      "color": "Silver",
+      "size": "One Size",
+      "inStock": false
+    }
+  ],
+  "categories": [
+    "Clothing",
+    "Footwear",
+    "Accessories",
+    "Electronics"
+  ],
+  "brands": [
+    "DenimCo",
+    "ComfortWear",
+    "LeatherLux",
+    "SilkStyle",
+    "WarmFeet",
+    "SportRun",
+    "AudioTech",
+    "BeltMaster",
+    "PoloStyle",
+    "TechTime"
+  ]
+}

@@ -1,0 +1,124 @@
+version: '3.8'
+
+services:
+  # Selenium Grid Hub
+  selenium-hub:
+    image: selenium/hub:4.15.0
+    container_name: selenium-hub
+    ports:
+      - "4442:4442"
+      - "4443:4443"
+      - "4444:4444"
+    environment:
+      - GRID_MAX_SESSION=16
+      - GRID_BROWSER_TIMEOUT=300
+      - GRID_TIMEOUT=300
+    networks:
+      - selenium-grid
+
+  # Chrome Node
+  chrome-node:
+    image: selenium/node-chrome:4.15.0
+    container_name: chrome-node
+    shm_size: 2gb
+    depends_on:
+      - selenium-hub
+    environment:
+      - HUB_HOST=selenium-hub
+      - HUB_PORT=4444
+      - NODE_MAX_INSTANCES=4
+      - NODE_MAX_SESSION=4
+    ports:
+      - "7900:7900"  # VNC port for debugging
+    networks:
+      - selenium-grid
+
+  # Firefox Node
+  firefox-node:
+    image: selenium/node-firefox:4.15.0
+    container_name: firefox-node
+    shm_size: 2gb
+    depends_on:
+      - selenium-hub
+    environment:
+      - HUB_HOST=selenium-hub
+      - HUB_PORT=4444
+      - NODE_MAX_INSTANCES=4
+      - NODE_MAX_SESSION=4
+    ports:
+      - "7901:7900"  # VNC port for debugging
+    networks:
+      - selenium-grid
+
+  # Edge Node (optional)
+  edge-node:
+    image: selenium/node-edge:4.15.0
+    container_name: edge-node
+    shm_size: 2gb
+    depends_on:
+      - selenium-hub
+    environment:
+      - HUB_HOST=selenium-hub
+      - HUB_PORT=4444
+      - NODE_MAX_INSTANCES=2
+      - NODE_MAX_SESSION=2
+    ports:
+      - "7902:7900"  # VNC port for debugging
+    networks:
+      - selenium-grid
+
+  # Test Runner
+  test-runner:
+    build: .
+    container_name: retail-cart-tests
+    depends_on:
+      - selenium-hub
+      - chrome-node
+      - firefox-node
+    environment:
+      - SELENIUM_HUB_URL=http://selenium-hub:4444/wd/hub
+      - BROWSER=${BROWSER:-chrome}
+      - ENVIRONMENT=${ENVIRONMENT:-staging}
+      - HEADLESS_MODE=true
+      - CUCUMBER_TAGS=${CUCUMBER_TAGS:-@smoke}
+    volumes:
+      - ./reports:/app/reports
+      - ./target:/app/target
+    networks:
+      - selenium-grid
+    command: >
+      sh -c "
+        echo 'Waiting for Selenium Grid to be ready...'
+        while ! curl -sSf http://selenium-hub:4444/wd/hub/status > /dev/null; do
+          sleep 2
+        done
+        echo 'Selenium Grid is ready. Starting tests...'
+        mvn test -Dselenium.grid.url=http://selenium-hub:4444/wd/hub
+              -Dbrowser=$${BROWSER}
+              -Denvironment=$${ENVIRONMENT}
+              -Dheadless.mode=$${HEADLESS_MODE}
+              -Dcucumber.filter.tags=\"$${CUCUMBER_TAGS}\"
+      "
+
+  # Allure Report Server
+  allure-server:
+    image: frankescobar/allure-docker-service:2.21.0
+    container_name: allure-server
+    environment:
+      CHECK_RESULTS_EVERY_SECONDS: 5
+      KEEP_HISTORY: 1
+    ports:
+      - "5050:5050"
+    volumes:
+      - ./target/allure-results:/app/allure-results
+      - ./reports/allure-report:/app/default-reports/default
+    networks:
+      - selenium-grid
+
+networks:
+  selenium-grid:
+    driver: bridge
+
+volumes:
+  allure-results:
+  test-reports:

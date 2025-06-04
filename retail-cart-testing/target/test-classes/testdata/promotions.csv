@@ -1,0 +1,9 @@
+promoCode,description,discountPercentage,isCombinable
+SUMMER25,Summer Collection 25% Off,25,true
+SUMMER10,Summer Special 10% Off,10,true
+NEWCUSTOMER5,New Customer 5% Off,5,true
+SALE30,Special Sale 30% Off,30,false
+BUNDLE20,Bundle Discount 20% Off,20,false
+EXPIRED21,Expired Promotion 21% Off,21,true
+SEASONAL22,Upcoming Seasonal 22% Off,22,true
+INVALID123,Invalid Promotion Code,0,false
